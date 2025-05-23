@@ -3,6 +3,7 @@ import TryCatch from "./TryCatch.js";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 export const registerUser = TryCatch(async (req, res) => {
+    console.log(req.body);
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
     if (user) {

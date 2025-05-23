@@ -1,17 +1,18 @@
-import { JsonWebTokenError } from "jsonwebtoken";
+import { authenticatedRequest } from "./middleware.js";
 import { User } from "./model.js";
 import TryCatch from "./TryCatch.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 
 export const registerUser = TryCatch(async (req, res) => {
+    console.log(req.body);
     const {name, email, password} = req.body;
 
     let user = await User.findOne({ email });
     if (user) {
         res.status(400).json({
             message: "User already exists",
-        });
+        }); 
         return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -58,4 +59,10 @@ export const loginUser = TryCatch(async (req, res) => {
         user,
         token
     });
+})
+
+export const userProfile = TryCatch(async (req: authenticatedRequest, res) => {
+    const user = req.user;
+
+    res.status(200).json(user)
 })

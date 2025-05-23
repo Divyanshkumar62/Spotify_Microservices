@@ -5,6 +5,7 @@ const app = express();
 import userRoute from './route.js';
 dotenv.config();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const connectToDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI, {
