@@ -63,6 +63,6 @@ export const loginUser = TryCatch(async (req, res) => {
 
 export const userProfile = TryCatch(async (req: authenticatedRequest, res) => {
     const user = req.user;
-
+    // console.log("controller user: ",req.user)
     res.status(200).json(user)
 })

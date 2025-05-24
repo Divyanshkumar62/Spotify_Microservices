@@ -8,7 +8,7 @@ export interface authenticatedRequest extends Request {
 
 export const isAuth = async (req: authenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const token = req.headers.token;
+        const token = req.headers.token as string;
         if(!token){
             res.status(403).json({
                 message: "Please Login first"
@@ -27,9 +27,10 @@ export const isAuth = async (req: authenticatedRequest, res: Response, next: Nex
             })
             return;
         }
-
+        // console.log("id:",decodedValue._id)
         const userId = decodedValue._id; 
         const user = await User.findById(userId).select("-password");
+        // console.log("User", user)
 
         if(!user){
             res.status(404).json({

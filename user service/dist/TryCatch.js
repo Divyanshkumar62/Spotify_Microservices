@@ -5,7 +5,7 @@ const TryCatch = (handler) => {
         }
         catch (error) {
             res.status(500).json({
-                message: error.message || 'Internal Server Error',
+                message: error.message || "Internal Server Error",
             });
         }
     };
