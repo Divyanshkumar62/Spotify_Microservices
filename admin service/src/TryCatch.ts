@@ -6,7 +6,8 @@ const TryCatch = (handler: RequestHandler): RequestHandler => {
       await handler(req, res, next);
     } catch (error: any) {
       res.status(500).json({
-        message: error.message || "Internal Server Error",
+        message: "Internal Server Error",
+        error
       });
     }
   };

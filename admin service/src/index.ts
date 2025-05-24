@@ -27,15 +27,15 @@ async function initDB(){
             )
             `;
         await sql`
-            CREATE TABLE IF NOT EXISTS songs(
-                id SERIAL PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                description VARCHAR(255) NOT NULL,
-                thumbnail VARCHAR(255) NOT NULL,
-                audio VARCHAR(255) NOT NULL,
-                album_id INTEGER REFERENCES albums(id) ON DELETE SET NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
+            CREATE TABLE IF NOT EXISTS songs (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            description VARCHAR(255) NOT NULL,
+            thumbnail VARCHAR(255) NOT NULL DEFAULT 'https://fakeimg.pl/600x400?text=Song+Thumbnail',
+            audio VARCHAR(255) NOT NULL,
+            album_id INTEGER REFERENCES albums(id) ON DELETE SET NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
             `;
 
         console.log("Connected to the Admin database");
