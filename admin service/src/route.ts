@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/album/new', isAuth, uploadFile, addAlbum)
 router.post('/song/new', isAuth, uploadFile, addSong)
-router.post('/song/update/:id', isAuth, uploadFile, addThumbnail)
+router.post('/song/update/:id', isAuth, uploadFile, addThumbnail) 
 router.delete('/album/:id', isAuth, deleteAlbum)
 router.delete('/song/:id', isAuth, deleteSong)
 

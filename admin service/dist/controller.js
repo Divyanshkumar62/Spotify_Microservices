@@ -44,7 +44,7 @@ export const addSong = TryCatch(async (req, res) => {
         return;
     }
     const { title, description, album } = req.body;
-    const isAlbum = await sql `SELECT * FROM albums WHERE id = ${album}`;
+    const isAlbum = await sql `EXPLAIN ANALYZE SELECT * FROM albums WHERE id = ${album}`;
     if (isAlbum.length === 0) {
         res.status(404).json({
             message: "Album not found!"
@@ -71,7 +71,7 @@ export const addSong = TryCatch(async (req, res) => {
     });
     const result = await sql `
         INSERT INTO songs (title, description, audio, album_id) VALUES
-        (${title}, ${description}, ${cloud.secure_url}, ${album}) RETURNING *`;
+        (${title}, ${description}, ${cloud.secure_url}, ${album})`;
     // console.log(result[0]);
     res.status(201).json({
         message: "Songs added successfully!",

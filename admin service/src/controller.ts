@@ -59,7 +59,7 @@ export const addSong = TryCatch(async (req: AuthenticatedRequest, res: Response)
     }
     const { title, description, album } = req.body;
 
-    const isAlbum = await sql`SELECT * FROM albums WHERE id = ${album}`;
+    const isAlbum = await sql`EXPLAIN ANALYZE SELECT * FROM albums WHERE id = ${album}`;
 
     if(isAlbum.length === 0){
         res.status(404).json({
@@ -85,14 +85,13 @@ export const addSong = TryCatch(async (req: AuthenticatedRequest, res: Response)
       });
       return;
     }
-
     const cloud = await cloudinary.v2.uploader.upload(fileBuffer.content, {
-        folder: "songs",
-        resource_type: "video"
+      folder: "songs",
+      resource_type: "video"
     })
     const result = await sql`
         INSERT INTO songs (title, description, audio, album_id) VALUES
-        (${title}, ${description}, ${cloud.secure_url}, ${album}) RETURNING *`
+        (${title}, ${description}, ${cloud.secure_url}, ${album})`
 
     // console.log(result[0]);
     res.status(201).json({
