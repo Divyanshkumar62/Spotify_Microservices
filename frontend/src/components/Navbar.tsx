@@ -35,7 +35,7 @@ const Navbar = () => {
         <p className="bg-white text-black px-4 py-1 rounded-2xl cursor-pointer">
           All Albums
         </p>
-        <p className="bg-white text-black px-4 py-1 rounded-2xl cursor-pointer hidden md:block">
+        <p className="bg-white text-black px-4 py-1 rounded-2xl cursor-pointer hidden md:block ">
           Music
         </p>
         <p className="bg-white text-black px-4 py-1 rounded-2xl cursor-pointer hidden md:block">
