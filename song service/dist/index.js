@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import songRoutes from './route.js';
 import redis from 'redis';
+import cors from 'cors';
 dotenv.config();
 export const redisClient = redis.createClient({
     password: process.env.Redis_password,
@@ -19,6 +20,8 @@ redisClient
     console.error;
 });
 const app = express();
+app.use(express.json());
+app.use(cors());
 app.use('/api/v1', songRoutes);
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
