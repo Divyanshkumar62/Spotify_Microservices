@@ -90,20 +90,28 @@ export const SongProvider: React.FC<SongProviderProps> = ({ children }) => {
       setAlbums(data);
     } catch (error) {
       console.error("Failed to fetch albums:", error);
+    } finally {
+      setLoading(false)
     }
   }, []);
 
   const [index, setIndex] = useState<number>(0);
 
   const nextSong = useCallback(() => {
-    if(index === songs.length - 1){
-        setIndex(0)
-        setSelectedSong(songs[0].id.toString())
-    } else{
-        setIndex((prevIndex) => prevIndex + 1)
-        setSelectedSong(songs[index + 1]?.id.toString())
+    if (index === songs.length - 1) {
+      setIndex(0);
+      if (selectedSong !== songs[0].id.toString()) {
+        // Prevent unnecessary state updates
+        setSelectedSong(songs[0].id.toString());
+      }
+    } else {
+      setIndex((prevIndex) => prevIndex + 1);
+      if (selectedSong !== songs[index + 1]?.id.toString()) {
+        // Prevent redundant re-renders
+        setSelectedSong(songs[index + 1]?.id.toString());
+      }
     }
-  }, [index, songs])
+  }, [index, songs, selectedSong]);
 
   const prevSong = useCallback(() => {
     if(index > 0){
@@ -111,6 +119,21 @@ export const SongProvider: React.FC<SongProviderProps> = ({ children }) => {
         setSelectedSong(songs[index - 1]?.id.toString())
     }
   }, [index, songs])
+
+  useEffect(() => {
+    const storedSong = localStorage.getItem("selectedSong");
+    if (storedSong) {
+      setSelectedSong(storedSong);
+    } else if (songs.length > 0) {
+      setSelectedSong(songs[0].id.toString());
+    }
+  }, [songs]);
+
+  useEffect(() => {
+    if (selectedSong) {
+      localStorage.setItem("selectedSong", selectedSong);
+    }
+  }, [selectedSong]); 
 
   useEffect(() => {
     fetchSongs();
